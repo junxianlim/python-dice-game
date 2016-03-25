@@ -3,26 +3,27 @@ from player import Player
 from time import sleep
 
 class Game(object):
-    @classmethod
-    def start(cls, player_numbers):
-        players = []
-        winners = []
-        round = 1
 
+    def __init__(self, player_numbers):
+        self.players = []
         for i in range(player_numbers):
             new_player = Player(str(i))
             print(new_player.name + " has joined the game.")
-            players.append(new_player)
+            self.players.append(new_player)
+        self.winners = []
+        self.round = 1
+
+    def start(self):
 
         sleep(1)
         print("Game is about to start!")
         sleep(2)
 
-        while len(winners) < 1:
+        while len(self.winners) < 1:
 
             sleep(1)
-            print("---------- ROUND " + str(round) + " ----------")
-            for player in players:
+            print("---------- ROUND " + str(self.round) + " ----------")
+            for player in self.players:
                 results = []
                 for i in range(player.dice):
                     result = Dice.roll()
@@ -34,14 +35,12 @@ class Game(object):
                 print(player.name + " has " + str(player.dice) + " dice remaining.")
 
                 if player.dice < 1:
-                    winners.append(player)
+                    self.winners.append(player)
 
-            round +=1
+            self.round +=1
 
         print("--------------------------")
         print("Game Over!")
         sleep(1)
-        for player in winners:
-            print(player.name + " has " + str(player.dice) + " remaining and won the game!")
-
-Game.start(4)
+        for player in self.winners:
+            print(player.name + " has " + str(player.dice) + " remaining dice and won the game!")
